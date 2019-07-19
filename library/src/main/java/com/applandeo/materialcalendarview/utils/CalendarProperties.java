@@ -1,6 +1,7 @@
 package com.applandeo.materialcalendarview.utils;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import androidx.core.content.ContextCompat;
 
@@ -144,12 +145,12 @@ public class CalendarProperties {
         mForwardButtonSrc = forwardButtonSrc;
     }
 
-    public int getSelectionColor() {
+    public Drawable getSelectionColor() {
         if (mSelectionColor == 0) {
-            return ContextCompat.getColor(mContext, R.color.defaultColor);
+            //return ContextCompat.getColor(mContext, R.color.defaultColor);
+            return ContextCompat.getDrawable(mContext, R.drawable.background_color_circle_selector);
         }
-
-        return mSelectionColor;
+        return ContextCompat.getDrawable(mContext, R.drawable.background_color_circle_selector);
     }
 
     public void setSelectionColor(int selectionColor) {
