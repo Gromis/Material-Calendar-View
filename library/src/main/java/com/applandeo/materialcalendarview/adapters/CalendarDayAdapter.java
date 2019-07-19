@@ -2,6 +2,9 @@ package com.applandeo.materialcalendarview.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
+
+import androidx.annotation.NonNull;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +18,6 @@ import com.applandeo.materialcalendarview.R;
 import com.applandeo.materialcalendarview.utils.CalendarProperties;
 import com.applandeo.materialcalendarview.utils.DateUtils;
 import com.applandeo.materialcalendarview.utils.DayColorsUtils;
-import com.applandeo.materialcalendarview.utils.EventDayUtils;
 import com.applandeo.materialcalendarview.utils.ImageUtils;
 import com.applandeo.materialcalendarview.utils.SelectedDay;
 
@@ -23,8 +25,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
-import androidx.annotation.NonNull;
 
 /**
  * This class is responsible for loading a one day cell.
@@ -40,9 +40,12 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
 
     private CalendarProperties mCalendarProperties;
 
+    private boolean isMonthView;
+
     CalendarDayAdapter(CalendarPageAdapter calendarPageAdapter, Context context, CalendarProperties calendarProperties,
                        ArrayList<Date> dates, int pageMonth) {
         super(context, calendarProperties.getItemLayoutResource(), dates);
+        isMonthView = dates.size() != 7;
         mCalendarPageAdapter = calendarPageAdapter;
         mCalendarProperties = calendarProperties;
         mPageMonth = pageMonth < 0 ? 11 : pageMonth;
@@ -75,13 +78,13 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
 
     private void setLabelColors(TextView dayLabel, Calendar day) {
         // Setting not current month day color
-        if (!isCurrentMonthDay(day)) {
+        if (isMonthView && !isCurrentMonthDay(day)) {
             DayColorsUtils.setDayColors(dayLabel, mCalendarProperties.getAnotherMonthsDaysLabelsColor(),
                     Typeface.NORMAL, R.drawable.background_transparent);
             return;
         }
 
-        // Setting view for all SelectedDays
+        // Set view for all SelectedDays
         if (isSelectedDay(day)) {
             Stream.of(mCalendarPageAdapter.getSelectedDays())
                     .filter(selectedDay -> selectedDay.getCalendar().equals(day))
@@ -98,23 +101,21 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
             return;
         }
 
-        // Setting custom label color for event day
-        if (isEventDayWithLabelColor(day)) {
-            DayColorsUtils.setCurrentMonthDayColors(day, mToday, dayLabel, mCalendarProperties);
-            return;
-        }
-
         // Setting current month day color
         DayColorsUtils.setCurrentMonthDayColors(day, mToday, dayLabel, mCalendarProperties);
     }
 
     private boolean isSelectedDay(Calendar day) {
-        return mCalendarProperties.getCalendarType() != CalendarView.CLASSIC && day.get(Calendar.MONTH) == mPageMonth
-                && mCalendarPageAdapter.getSelectedDays().contains(new SelectedDay(day));
-    }
-
-    private boolean isEventDayWithLabelColor(Calendar day) {
-        return EventDayUtils.isEventDayWithLabelColor(day, mCalendarProperties);
+        if (isMonthView) {
+            return mCalendarProperties.getCalendarType() != CalendarView.CLASSIC && day.get(Calendar.MONTH) == mPageMonth
+                    && mCalendarPageAdapter.getSelectedDays().contains(new SelectedDay(day));
+        } else {
+            Date date = day.getTime();
+            int dWeek = day.get(Calendar.WEEK_OF_MONTH);
+            boolean isSelectedDay = mCalendarProperties.getCalendarType() != CalendarView.CLASSIC/* && dWeek == mPageMonth*/
+                    && mCalendarPageAdapter.getSelectedDays().contains(new SelectedDay(day));
+            return isSelectedDay;
+        }
     }
 
     private boolean isCurrentMonthDay(Calendar day) {
@@ -143,6 +144,6 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
                 dayIcon.setAlpha(0.12f);
             }
 
-        });
+        }).executeIfAbsent(() -> dayIcon.setVisibility(View.GONE));
     }
 }

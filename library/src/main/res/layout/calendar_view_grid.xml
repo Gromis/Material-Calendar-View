@@ -5,4 +5,4 @@
     android:layout_height="wrap_content"
     android:drawSelectorOnTop="true"
     android:listSelector="@android:color/transparent"
-    android:numColumns="6" />
+    android:numColumns="7" />

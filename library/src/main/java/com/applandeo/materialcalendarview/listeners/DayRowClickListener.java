@@ -32,11 +32,13 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
 
     private CalendarProperties mCalendarProperties;
     private int mPageMonth;
+    private boolean isWeekView;
 
-    public DayRowClickListener(CalendarPageAdapter calendarPageAdapter, CalendarProperties calendarProperties, int pageMonth) {
+    public DayRowClickListener(CalendarPageAdapter calendarPageAdapter, CalendarProperties calendarProperties, int pageMonth, boolean isWeekView) {
         mCalendarPageAdapter = calendarPageAdapter;
         mCalendarProperties = calendarProperties;
         mPageMonth = pageMonth < 0 ? 11 : pageMonth;
+        this.isWeekView = isWeekView;
     }
 
     @Override
@@ -127,10 +129,6 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
                 .filter(calendar -> !mCalendarProperties.getDisabledDays().contains(calendar))
                 .forEach(calendar -> mCalendarPageAdapter.addSelectedDay(new SelectedDay(calendar)));
 
-        if (isOutOfMaxRange(previousSelectedDay.getCalendar(), day)) {
-            return;
-        }
-
         DayColorsUtils.setSelectedDayColors(dayLabel, mCalendarProperties);
 
         mCalendarPageAdapter.addSelectedDay(new SelectedDay(dayLabel, day));
@@ -148,6 +146,9 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
     }
 
     private boolean isCurrentMonthDay(Calendar day) {
+        if(isWeekView){
+            return isBetweenMinAndMax(day);
+        }
         return day.get(Calendar.MONTH) == mPageMonth && isBetweenMinAndMax(day);
     }
 
@@ -158,14 +159,6 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
     private boolean isBetweenMinAndMax(Calendar day) {
         return !((mCalendarProperties.getMinimumDate() != null && day.before(mCalendarProperties.getMinimumDate()))
                 || (mCalendarProperties.getMaximumDate() != null && day.after(mCalendarProperties.getMaximumDate())));
-    }
-
-    private boolean isOutOfMaxRange(Calendar firstDay, Calendar lastDay) {
-        // Number of selected days plus one last day
-        int numberOfSelectedDays = CalendarUtils.getDatesRange(firstDay, lastDay).size() + 1;
-        int daysMaxRange = mCalendarProperties.getMaximumDaysRange();
-
-        return daysMaxRange != 0 && numberOfSelectedDays >= daysMaxRange;
     }
 
     private boolean isAnotherDaySelected(SelectedDay selectedDay, Calendar day) {

@@ -1,7 +1,6 @@
 package com.applandeo.materialcalendarview.utils;
 
 import android.content.Context;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import androidx.core.content.ContextCompat;
 
@@ -12,6 +11,7 @@ import com.applandeo.materialcalendarview.R;
 import com.applandeo.materialcalendarview.exceptions.ErrorsMessages;
 import com.applandeo.materialcalendarview.exceptions.UnsupportedMethodsException;
 import com.applandeo.materialcalendarview.listeners.OnCalendarPageChangeListener;
+import com.applandeo.materialcalendarview.listeners.OnCalendarPageSelectedListener;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
 import com.applandeo.materialcalendarview.listeners.OnSelectionAbilityListener;
@@ -38,7 +38,7 @@ public class CalendarProperties {
     private int mCalendarType, mHeaderColor, mHeaderLabelColor, mSelectionColor, mTodayLabelColor,
             mDialogButtonsColor, mItemLayoutResource, mDisabledDaysLabelsColor, mHighlightedDaysLabelsColor, mPagesColor,
             mAbbreviationsBarColor, mAbbreviationsLabelsColor, mDaysLabelsColor, mSelectionLabelColor,
-            mAnotherMonthsDaysLabelsColor, mHeaderVisibility, mAbbreviationsBarVisibility, mMaximumDaysRange;
+            mAnotherMonthsDaysLabelsColor, mHeaderVisibility, mAbbreviationsBarVisibility;
 
     private boolean mEventsEnabled;
     private boolean mSwipeEnabled;
@@ -53,11 +53,13 @@ public class CalendarProperties {
     private OnSelectionAbilityListener mOnSelectionAbilityListener;
     private OnCalendarPageChangeListener mOnPreviousPageChangeListener;
     private OnCalendarPageChangeListener mOnForwardPageChangeListener;
+    private OnCalendarPageSelectedListener mOnPageSelectedListener;
 
     private List<EventDay> mEventDays = new ArrayList<>();
     private List<Calendar> mDisabledDays = new ArrayList<>();
     private List<Calendar> mHighlightedDays = new ArrayList<>();
     private List<SelectedDay> mSelectedDays = new ArrayList<>();
+    private SelectedDay mCurrentSelectedDay;
 
     private Context mContext;
 
@@ -145,12 +147,12 @@ public class CalendarProperties {
         mForwardButtonSrc = forwardButtonSrc;
     }
 
-    public Drawable getSelectionColor() {
+    public int getSelectionColor() {
         if (mSelectionColor == 0) {
-            //return ContextCompat.getColor(mContext, R.color.defaultColor);
-            return ContextCompat.getDrawable(mContext, R.drawable.background_color_circle_selector);
+            return ContextCompat.getColor(mContext, R.color.defaultColor);
         }
-        return ContextCompat.getDrawable(mContext, R.drawable.background_color_circle_selector);
+
+        return mSelectionColor;
     }
 
     public void setSelectionColor(int selectionColor) {
@@ -207,6 +209,14 @@ public class CalendarProperties {
 
     public void setItemLayoutResource(int itemLayoutResource) {
         mItemLayoutResource = itemLayoutResource;
+    }
+
+    public OnCalendarPageSelectedListener getOnPageSelectedListener() {
+        return mOnPageSelectedListener;
+    }
+
+    public void setOnPageSelectedListener(OnCalendarPageSelectedListener mOnPageSelectedListener) {
+        this.mOnPageSelectedListener = mOnPageSelectedListener;
     }
 
     public OnCalendarPageChangeListener getOnPreviousPageChangeListener() {
@@ -402,11 +412,11 @@ public class CalendarProperties {
         mAbbreviationsBarVisibility = abbreviationsBarVisbility;
     }
 
-    public int getMaximumDaysRange() {
-        return mMaximumDaysRange;
+    public SelectedDay getmCurrentSelectedDay() {
+        return mCurrentSelectedDay;
     }
 
-    public void setMaximumDaysRange(int maximumDaysRange) {
-        mMaximumDaysRange = maximumDaysRange;
+    public void setmCurrentSelectedDay(SelectedDay mCurrentSelectedDay) {
+        this.mCurrentSelectedDay = mCurrentSelectedDay;
     }
 }

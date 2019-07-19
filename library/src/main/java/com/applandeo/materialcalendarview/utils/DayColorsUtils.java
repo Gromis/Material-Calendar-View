@@ -1,17 +1,11 @@
 package com.applandeo.materialcalendarview.utils;
 
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.nfc.Tag;
-import android.util.Log;
-import android.util.LogPrinter;
 import android.widget.TextView;
 
 import com.applandeo.materialcalendarview.R;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Locale;
 
 /**
  * This class is used to set a style of calendar cells.
@@ -20,7 +14,7 @@ import java.util.Locale;
  */
 
 public class DayColorsUtils {
-    private static final String TAG = "EventDayUtils";
+
     /**
      * This is general method which sets a color of the text, font type and a background of a TextView object.
      * It is used to set day cell (numbers) style.
@@ -52,8 +46,8 @@ public class DayColorsUtils {
         setDayColors(dayLabel, calendarProperties.getSelectionLabelColor(), Typeface.NORMAL,
                 R.drawable.background_color_circle_selector);
 
-        dayLabel.setBackgroundResource(R.drawable.background_color_circle_selector);
-        dayLabel.setElevation(20f);
+        dayLabel.getBackground().setColorFilter(calendarProperties.getSelectionColor(),
+                android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 
     /**
@@ -64,28 +58,19 @@ public class DayColorsUtils {
      *
      * @param day                A calendar instance representing day date
      * @param today              A calendar instance representing today date
-     * @param dayLabel           TextView containing a day numberx
+     * @param dayLabel           TextView containing a day number
      * @param calendarProperties A resource of a color used to mark today day
      */
     public static void setCurrentMonthDayColors(Calendar day, Calendar today, TextView dayLabel,
                                                 CalendarProperties calendarProperties) {
-        Log.i(TAG,"Day: " + day);
         if (today.equals(day)) {
             setDayColors(dayLabel, calendarProperties.getTodayLabelColor(), Typeface.BOLD,
                     R.drawable.background_transparent);
-        } else if (EventDayUtils.isEventDayWithLabelColor(day, calendarProperties)) {
-            EventDayUtils.getEventDayWithLabelColor(day, calendarProperties).executeIfPresent(eventDay ->
-                    DayColorsUtils.setDayColors(dayLabel, eventDay.getLabelColor(),
-                            Typeface.NORMAL, R.drawable.background_transparent));
-
         } else if (calendarProperties.getHighlightedDays().contains(day)) {
             setDayColors(dayLabel, calendarProperties.getHighlightedDaysLabelsColor(),
                     Typeface.NORMAL, R.drawable.background_transparent);
-        } //else if (day.equals(GregorianCalendar.getInstance().getFirstDayOfWeek())) {
-//            setDayColors(dayLabel, Color.WHITE, Typeface.BOLD,
-//                    R.drawable.background_transparent);
-        else {
-            setDayColors(dayLabel, calendarProperties.getDaysLabelsColor(), Typeface.BOLD,
+        } else {
+            setDayColors(dayLabel, calendarProperties.getDaysLabelsColor(), Typeface.NORMAL,
                     R.drawable.background_transparent);
         }
     }

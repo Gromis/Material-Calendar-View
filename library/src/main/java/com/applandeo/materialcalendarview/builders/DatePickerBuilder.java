@@ -4,10 +4,10 @@ import android.content.Context;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.core.content.ContextCompat;
+import android.widget.ListView;
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.DatePicker;
-import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.listeners.OnCalendarPageChangeListener;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
 import com.applandeo.materialcalendarview.utils.CalendarProperties;
@@ -598,33 +598,5 @@ public class DatePickerBuilder {
     public DatePickerBuilder setSelectedDays(List<Calendar> selectedDays) {
         mCalendarProperties.setSelectedDays(selectedDays);
         return this;
-    }
-
-    /**
-     * Sets the maximum number of selectable days in range
-     *
-     * @param maximumDaysRange The number of maximum selectable days in range
-     * @return The builder object to allow for chaining of methods
-     */
-    public DatePickerBuilder setMaximumDaysRange(int maximumDaysRange) {
-        mCalendarProperties.setMaximumDaysRange(maximumDaysRange);
-        return this;
-    }
-
-    /**
-     * This method is used to set a list of events displayed in calendar cells,
-     * visible as images under the day number.
-     *
-     * @param eventDays List of EventDay objects
-     * @see EventDay
-     * @return The builder object to allow for chaining of methods
-     */
-    public DatePickerBuilder setEvents(List<EventDay> eventDays) {
-      if (eventDays != null) {
-        mCalendarProperties.setEventsEnabled(true);
-        mCalendarProperties.setEventDays(eventDays);
-      }
-
-      return this;
     }
 }
