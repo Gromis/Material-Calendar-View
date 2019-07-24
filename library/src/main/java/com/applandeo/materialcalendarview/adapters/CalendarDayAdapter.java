@@ -66,9 +66,9 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
         day.setTime(getItem(position));
 
         // Loading an image of the event
-        if (dayIcon != null) {
+/*        if (dayIcon != null) {
             loadIcon(dayIcon, day);
-        }
+        }*/
 
         setLabelColors(dayLabel, day);
 
@@ -131,10 +131,9 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
     private void loadIcon(ImageView dayIcon, Calendar day) {
         if (mCalendarProperties.getEventDays() == null || !mCalendarProperties.getEventsEnabled()) {
             dayIcon.setVisibility(View.GONE);
-            return;
         }
 
-        Stream.of(mCalendarProperties.getEventDays()).filter(eventDate ->
+/*        Stream.of(mCalendarProperties.getEventDays()).filter(eventDate ->
                 eventDate.getCalendar().equals(day)).findFirst().executeIfPresent(eventDay -> {
 
             ImageUtils.loadImage(dayIcon, eventDay.getImageDrawable());
@@ -144,6 +143,6 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
                 dayIcon.setAlpha(0.12f);
             }
 
-        }).executeIfAbsent(() -> dayIcon.setVisibility(View.GONE));
+        }).executeIfAbsent(() -> dayIcon.setVisibility(View.GONE));*/
     }
 }

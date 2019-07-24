@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements OnSelectDateListe
                 .date(max)
                 .headerColor(R.color.colorPrimaryDark)
                 .headerLabelColor(R.color.currentMonthDayColor)
-                .selectionColor(R.color.daysLabelColor)
                 .todayLabelColor(R.color.colorAccent)
                 .dialogButtonsColor(android.R.color.holo_green_dark)
                 .disabledDaysLabelsColor(android.R.color.holo_purple)

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.annimon.stream.Stream;
 import com.applandeo.materialcalendarview.adapters.CalendarPageAdapter;
@@ -64,6 +65,8 @@ public class CalendarView extends LinearLayout {
 
     private Context mContext;
     private CalendarPageAdapter mCalendarPageAdapter;
+
+    private String headerName;
 
     private TextView mCurrentMonthLabel;
     private int mCurrentPage;
@@ -151,7 +154,7 @@ public class CalendarView extends LinearLayout {
         mCalendarProperties.setTodayLabelColor(todayLabelColor);
 
         int selectionColor = typedArray.getColor(R.styleable.CalendarView_selectionColor, 0);
-        mCalendarProperties.setSelectionColor(selectionColor);
+        //mCalendarProperties.setSelectionColor(selectionColor);
 
         int selectionLabelColor = typedArray.getColor(R.styleable.CalendarView_selectionLabelColor, 0);
         mCalendarProperties.setSelectionLabelColor(selectionLabelColor);
@@ -363,7 +366,12 @@ public class CalendarView extends LinearLayout {
 
     private void setHeaderName(Calendar calendar, int position) {
         mCurrentMonthLabel.setText(DateUtils.getMonthAndYearDate(mContext, calendar));
+        headerName = DateUtils.getMonthAndYearDate(mContext, calendar);
         callOnPageChangeListeners(position);
+    }
+
+    public String getHeaderName() {
+        return headerName;
     }
 
     // This method calls page change listeners after swipe calendar or click arrow buttons

@@ -1,5 +1,6 @@
 package com.applandeo.materialcalendarview.utils;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -34,6 +35,10 @@ public final class AppearanceUtils {
         for (int i = 0; i < 7; i++) {
             TextView label = labels.get(i);
             label.setText(abbreviations[(i + firstDayOfWeek - 1) % 7]);
+
+            if (i == 0 || i == 6) {
+                label.setTextColor(Color.WHITE);
+            }
 
             if (color != 0) {
                 label.setTextColor(color);

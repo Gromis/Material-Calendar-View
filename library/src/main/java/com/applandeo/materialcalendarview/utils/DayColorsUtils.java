@@ -1,5 +1,6 @@
 package com.applandeo.materialcalendarview.utils;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.widget.TextView;
 
@@ -46,8 +47,8 @@ public class DayColorsUtils {
         setDayColors(dayLabel, calendarProperties.getSelectionLabelColor(), Typeface.NORMAL,
                 R.drawable.background_color_circle_selector);
 
-        dayLabel.getBackground().setColorFilter(calendarProperties.getSelectionColor(),
-                android.graphics.PorterDuff.Mode.MULTIPLY);
+        dayLabel.setBackgroundResource(R.drawable.background_color_circle_selector);
+        dayLabel.setElevation(6f);
     }
 
     /**
@@ -69,6 +70,10 @@ public class DayColorsUtils {
         } else if (calendarProperties.getHighlightedDays().contains(day)) {
             setDayColors(dayLabel, calendarProperties.getHighlightedDaysLabelsColor(),
                     Typeface.NORMAL, R.drawable.background_transparent);
+        } else if (day.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ||
+                day.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+            setDayColors(dayLabel, Color.WHITE, Typeface.NORMAL,
+                    R.drawable.background_transparent);
         } else {
             setDayColors(dayLabel, calendarProperties.getDaysLabelsColor(), Typeface.NORMAL,
                     R.drawable.background_transparent);

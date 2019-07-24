@@ -11,7 +11,8 @@
         android:id="@+id/calendarHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/accent_color">
+        android:background="@drawable/accent_color"
+        android:elevation="0dp">
 
         <ImageButton
             android:id="@+id/previousButton"
@@ -51,9 +52,10 @@
     <LinearLayout
         android:id="@+id/abbreviationsBar"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="25dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/accent_color">
 
         <TextView
             android:id="@+id/mondayLabel"
@@ -62,6 +64,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/material_calendar_monday"
+            android:textSize="10sp"
             android:textColor="@color/daysLabelColor" />
 
         <TextView
@@ -71,6 +74,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/material_calendar_tuesday"
+            android:textSize="10sp"
             android:textColor="@color/daysLabelColor" />
 
         <TextView
@@ -80,6 +84,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/material_calendar_wednesday"
+            android:textSize="10sp"
             android:textColor="@color/daysLabelColor" />
 
         <TextView
@@ -89,6 +94,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/material_calendar_thursday"
+            android:textSize="10sp"
             android:textColor="@color/daysLabelColor" />
 
         <TextView
@@ -98,6 +104,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/material_calendar_friday"
+            android:textSize="10sp"
             android:textColor="@color/daysLabelColor" />
 
         <TextView
@@ -107,6 +114,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/material_calendar_saturday"
+            android:textSize="10sp"
             android:textColor="@color/daysLabelColor" />
 
         <TextView
@@ -116,12 +124,21 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/material_calendar_sunday"
+            android:textSize="10sp"
             android:textColor="@color/daysLabelColor" />
     </LinearLayout>
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0.5dp"
+        android:background="#DE00b248" />
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/accent_color"
+        android:paddingTop="5dp">
 
         <com.applandeo.materialcalendarview.extensions.CalendarViewPager
             android:id="@+id/calendarViewPager"
