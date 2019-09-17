@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import androidx.annotation.ColorRes;
 import androidx.viewpager.widget.ViewPager;
 
+import android.transition.TransitionManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -65,7 +66,7 @@ public class CalendarView extends LinearLayout {
 
     private Context mContext;
     private CalendarPageAdapter mCalendarPageAdapter;
-
+    private int weekViewToggled;
     private String headerName;
 
     private TextView mCurrentMonthLabel;
@@ -154,7 +155,7 @@ public class CalendarView extends LinearLayout {
         mCalendarProperties.setTodayLabelColor(todayLabelColor);
 
         int selectionColor = typedArray.getColor(R.styleable.CalendarView_selectionColor, 0);
-        //mCalendarProperties.setSelectionColor(selectionColor);
+        mCalendarProperties.setSelectionColor(selectionColor);
 
         int selectionLabelColor = typedArray.getColor(R.styleable.CalendarView_selectionLabelColor, 0);
         mCalendarProperties.setSelectionLabelColor(selectionLabelColor);
@@ -432,11 +433,17 @@ public class CalendarView extends LinearLayout {
         setUpCalendarPosition(Calendar.getInstance(), isWeekView);
         mCalendarPageAdapter.toggleView(isWeekView);
         if (!isWeekView) {
+            TransitionManager.beginDelayedTransition(this);
+            weekViewToggled = 0;
             setCurrentMonthByDate(mCalendarProperties.getmCurrentSelectedDay().getCalendar());
         } else {
+            if (weekViewToggled == 0) {
+                TransitionManager.beginDelayedTransition(this);
+            }
             Calendar calendar = (Calendar) mCalendarProperties.getFirstPageCalendarDate().clone();
             calendar.add(Calendar.WEEK_OF_MONTH, mViewPager.getCurrentItem());
             for (SelectedDay selectedDay : mCalendarProperties.getSelectedDays()) {
+                weekViewToggled++;
                 Calendar selectedCalendar = selectedDay.getCalendar();
                 if (calendar.get(Calendar.WEEK_OF_MONTH) == selectedCalendar.get(Calendar.WEEK_OF_MONTH)
                         && calendar.get(Calendar.MONTH) == selectedCalendar.get(Calendar.MONTH)
